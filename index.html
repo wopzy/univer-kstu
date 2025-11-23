@@ -1,164 +1,93 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html data-bs-theme="light" lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Univer</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="/images/favicon_io/favicon-32x32.png" type="image/png">
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>univer-kstu</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
+    <link rel="stylesheet" href="assets/css/themes.css">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1e1e2f">
-
-    <link rel="apple-touch-icon" href="images/favicon_io/apple-touch-icon.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon_io/favicon-16x16.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Univer">
+    <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
-
-    <div id="schedule-section" class="content-section">
-
-        <header>
-            <div class="header-left">
-                <button id="menu-btn">
-                    <span class="burger"></span>
-                    <span class="burger"></span>
-                    <span class="burger"></span>
-                </button>
-                <h1 id="page-heading">Univer</h1>
-            </div>
-            <div class="header-right">
-                <span id="current-week">Сейчас: ...</span>
-            </div>
-            <nav id="menu" class="menu-hidden">
-                <ul>
-                    <li><a href="#">Настройки</a></li>
-                </ul>
-
-                <div class="group-selection">
-                    <h4>Группа:</h4>
-                    <div class="group-options">
-
-                        <div class="group-option">
-                            <input type="radio" id="group-1" name="group" value="schedule.json" checked>
-                            <label for="group-1">СИБ-24-2с 1п</label>
-                        </div>
-
-                        <div class="group-option">
-                            <input type="radio" id="group-2" name="group" value="schedule2.json">
-                            <label for="group-2">СИБ-24-2с 2п</label>
-                        </div>
-
-                        <div class="group-option">
-                            <input type="radio" id="group-3" name="group" value="schedule3.json">
-                            <label for="group-3">АРХ-22-2</label>
-                        </div>
-
-                        <div class="group-option">
-                            <input type="radio" id="group-4" name="group" value="schedule4.json">
-                            <label for="group-4">ВТ-24-3с</label>
-                        </div>
-
-                    </div>
+    <div class="col">
+        <nav class="navbar navbar-expand-md bg-body">
+            <div class="container-fluid"><a class="navbar-brand" href="#" id="group-name">group-name</a><button
+                    data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
+                        class="visually-hidden">Toggle navigation</span><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false"
+                                data-bs-toggle="dropdown" href="#" id="theme-dropdown-toggle">Тема</a>
+                            <div class="dropdown-menu" id="theme-dropdown">
+                                <a class="dropdown-item" href="#" data-theme="minimal">Minimal</a>
+                                <a class="dropdown-item" href="#" data-theme="octopus">Octopus</a>
+                                <a class="dropdown-item" href="#" data-theme="matrix">Matrix</a>
+                                <a class="dropdown-item" href="#" data-theme="dracula">Dracula</a>
+                                <a class="dropdown-item" href="#" data-theme="oled">OLED</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false"
+                                data-bs-toggle="dropdown" href="#">Группа</a>
+                            <div class="dropdown-menu" id="group-dropdown"></div>
+                        </li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false"
+                                data-bs-toggle="dropdown" href="#" id="week-type-dropdown-toggle">Тип недели</a>
+                            <div class="dropdown-menu" id="week-type-dropdown">
+                                <a class="dropdown-item" href="#" data-type="numerator">Числитель</a>
+                                <a class="dropdown-item" href="#" data-type="denominator">Знаменатель</a>
+                            </div>
+                        </li>
+                    </ul><span class="navbar-text" id="week-info"></span>        
                 </div>
-            </nav>
-        </header>
-
-        <main>
-            <div class="buttons">
-                <button id="numerator-btn">Числитель</button>
-                <button id="denominator-btn">Знаменатель</button>
             </div>
-            <h2 id="week-type">Неделя: ...</h2>
-            <div id="schedule-container"></div>
-        </main>
-
+        </nav>
     </div>
-
-    <div id="umkd-section" class="content-section hidden">
-        <header>
-            <h1>УМКД | на 28.09</h1> 
-        </header>
-        <main id="umkd-container"></main>
-    </div>
-
-
-    <nav class="bottom-nav">
-        <div class="nav-item active" data-target="schedule-section">
-            <span>Расписание</span>
+    <div class="container" style="padding-bottom: 80px; border-top-style: solid;border-top-color: var(--accent-color);">
+        <div class="row" id="schedule-row">
         </div>
-        <div class="nav-item" data-target="umkd-section">
-            <span>УМКД</span>
+        <div class="row" id="umkd-row" style="display: none;">
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-md fixed-bottom bg-body"
+        style="border-top-style: solid;border-top-color: var(--accent-color);">
+        <div class="container-fluid">
+            <div class="container-fluid">
+                <ul class="navbar-nav flex-row justify-content-around"
+                    style="width: 100%;border-left-color: var(--accent-color);">
+                    <li class="nav-item" style="border-bottom-style: solid;border-bottom-color: var(--accent-color);"><a
+                            class="nav-link active" href="#" id="nav-schedule" style="display: inline-block;">Расписание</a></li>
+                    <li class="nav-item" id="umkd-nav-item"
+                        style="border-bottom-style: solid;border-bottom-color: var(--accent-color);"><a class="nav-link"
+                            href="#" id="nav-umkd" style="display: inline-block;">УМКД</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
-
-
-    <div id="settings-modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-btn" id="close-settings">&times;</span>
-            <h2>Настройки темы</h2>
-            <div class="theme-options">
-
-                <button class="theme-btn" data-theme="default">
-                    <span>Octopus</span>
-                    <div class="theme-preview">
-                        <span class="color-1"></span>
-                        <span class="color-2"></span>
-                    </div>
-                </button>
-
-                <button class="theme-btn" data-theme="minimalistic">
-                    <span>Minimal</span>
-                    <div class="theme-preview">
-                        <span class="color-1"></span>
-                        <span class="color-2"></span>
-                    </div>
-                </button>
-
-                <button class="theme-btn" data-theme="cyberpunk">
-                    <span>Cyberpunk</span>
-                    <div class="theme-preview">
-                        <span class="color-1"></span>
-                        <span class="color-2"></span>
-                    </div>
-                </button>
-
-                <button class="theme-btn" data-theme="christmas">
-                    <span>Xmas</span>
-                    <div class="theme-preview">
-                        <span class="color-1"></span>
-                        <span class="color-2"></span>
-                    </div>
-                </button>
-
-                <button class="theme-btn" data-theme="gold">
-                    <span>Aurum</span>
-                    <div class="theme-preview">
-                        <span class="color-1"></span>
-                        <span class="color-2"></span>
-                    </div>
-                </button>
-
-                <hr style="margin: 20px 0;">
-                <p class="modal-github-link">
-                    <a href="https://github.com/booksave/univer" target="_blank">
-                        Проект на GitHub
-                    </a>
-                </p>
-
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p>© Univer | 1.2.3</p>
-    </footer>
-
-    <script src="script.js"></script>
-
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/schedule.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
 </body>
 
 </html>

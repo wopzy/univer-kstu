@@ -1,0 +1,231 @@
+:root {
+    /* Minimal Theme (Default) */
+    --bg-body: #ffffff;
+    --text-main: #212529;
+    --text-secondary: rgba(0, 0, 0, 0.75);
+    --text-muted: #6c757d;
+    
+    --card-bg: rgba(255, 255, 255, 0.8); /* Glassmorphism base */
+    --card-border: rgba(47, 164, 231, 0.27);
+    --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    
+    --lesson-bg: rgba(117, 134, 143, 0.11);
+    --lesson-border-left: 3px solid #2fa4e7;
+    
+    --accent-color: #2fa4e7;
+    --accent-hover: #1a8ac9;
+    
+    --highlight-day-border: 2px solid #2fa4e7;
+    --highlight-day-shadow: 0 0 15px rgba(47, 164, 231, 0.5);
+    
+    --highlight-lesson-bg: rgba(47, 164, 231, 0.15);
+    --highlight-lesson-border: 5px solid #2fa4e7;
+
+    --font-main: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+[data-theme="octopus"] {
+    /* Octopus Theme (Dark) */
+    --bg-body: #212529;
+    --text-main: #f8f9fa;
+    --text-secondary: rgba(255, 255, 255, 0.9);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    
+    --card-bg: rgba(33, 37, 41, 0.6);
+    --card-border: rgba(47, 164, 231, 0.5);
+    --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    
+    --lesson-bg: rgba(255, 255, 255, 0.05);
+    
+    /* Accents remain similar but can be tweaked if needed */
+}
+
+[data-theme="matrix"] {
+    /* Matrix - Hacker Theme */
+    --bg-body: #0d0d0d;
+    --text-main: #00ff41;
+    --text-secondary: #008f11;
+    --text-muted: #003b00;
+    
+    --card-bg: rgba(0, 20, 0, 0.9);
+    --card-border: #00ff41;
+    --card-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+    
+    --lesson-bg: rgba(0, 50, 0, 0.3);
+    --lesson-border-left: 3px solid #00ff41;
+    
+    --accent-color: #00ff41;
+    --accent-hover: #008f11;
+    
+    --highlight-day-border: 2px solid #00ff41;
+    --highlight-day-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+    
+    --highlight-lesson-bg: rgba(0, 255, 65, 0.15);
+    --highlight-lesson-border: 5px solid #00ff41;
+
+    --font-main: 'Courier New', Courier, monospace;
+}
+
+[data-theme="dracula"] {
+    /* Dracula Theme */
+    --bg-body: #282a36;
+    --text-main: #f8f8f2;
+    --text-secondary: #bd93f9;
+    --text-muted: #6272a4;
+    
+    --card-bg: rgba(68, 71, 90, 0.6);
+    --card-border: #bd93f9;
+    --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    
+    --lesson-bg: rgba(98, 114, 164, 0.1);
+    --lesson-border-left: 3px solid #ff79c6;
+    
+    --accent-color: #bd93f9;
+    --accent-hover: #ff79c6;
+    
+    --highlight-day-border: 2px solid #ff79c6;
+    --highlight-day-shadow: 0 0 15px rgba(255, 121, 198, 0.5);
+    
+    --highlight-lesson-bg: rgba(189, 147, 249, 0.15);
+    --highlight-lesson-border: 5px solid #ff79c6;
+
+    --font-main: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+[data-theme="oled"] {
+    /* OLED Theme (True Black) */
+    --bg-body: #000000;
+    --text-main: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-muted: #a0a0a0;
+    
+    --card-bg: #000000;
+    --card-border: #333333;
+    --card-shadow: none;
+    
+    --lesson-bg: #000000;
+    --lesson-border-left: 3px solid #ffffff;
+    
+    --accent-color: #777777;
+    --accent-hover: #cccccc;
+    
+    --highlight-day-border: 2px solid #ffffff;
+    --highlight-day-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    
+    --highlight-lesson-bg: #1a1a1a;
+    --highlight-lesson-border: 5px solid #ffffff;
+
+    --font-main: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    transition: background-color 0.3s ease, color 0.3s ease, font-family 0.3s ease;
+}
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    background-color: var(--bg-body);
+    border: 1px solid var(--accent-color);
+}
+
+.dropdown-item {
+    font-family: var(--font-main);
+}
+
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: background 0.3s ease, border 0.3s ease;
+}
+
+.card-title {
+    color: var(--text-main);
+}
+
+.lesson-card {
+    background: var(--lesson-bg);
+    border-left: var(--lesson-border-left);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: background 0.3s ease;
+}
+
+.lesson-time {
+    color: var(--text-secondary);
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.lesson-subject {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.lesson-details {
+    color: var(--text-main);
+}
+
+/* Highlighting Classes */
+.highlight-day {
+    border: var(--highlight-day-border) !important;
+    box-shadow: var(--highlight-day-shadow) !important;
+}
+
+.highlight-lesson {
+    background: var(--highlight-lesson-bg) !important;
+    border-left: var(--highlight-lesson-border) !important;
+}
+
+/* Dropdown Active State */
+.dropdown-item.active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* UMKD Styles */
+.accordion-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-main);
+}
+
+.accordion-button {
+    background: transparent;
+    color: var(--text-main);
+}
+
+.accordion-button:not(.collapsed) {
+    background: var(--highlight-lesson-bg);
+    color: var(--text-main);
+    box-shadow: none;
+}
+
+.accordion-button::after {
+    filter: invert(0.5); /* Adjust arrow color if needed */
+}
+
+[data-theme="octopus"] .accordion-button::after {
+    filter: invert(1);
+}
+
+.umkd-meta {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.umkd-link {
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.umkd-link:hover {
+    color: var(--accent-color);
+}
