@@ -1,11 +1,10 @@
 {
-  "name": "Univer Schedule",
+  "name": "Univer",
   "short_name": "Univer",
-  "description": "Учебное расписание и учебно-методические материалы.",
-  "start_url": ".",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#1e1e2f",
-  "theme_color": "#1e1e2f",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "images/favicon_io/android-chrome-192x192.png",
