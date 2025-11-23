@@ -1,0 +1,139 @@
+:root {
+    /* Minimal Theme (Default) */
+    --bg-body: #ffffff;
+    --text-main: #212529;
+    --text-secondary: rgba(0, 0, 0, 0.75);
+    --text-muted: #6c757d;
+    
+    --card-bg: rgba(255, 255, 255, 0.8); /* Glassmorphism base */
+    --card-border: rgba(47, 164, 231, 0.27);
+    --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    
+    --lesson-bg: rgba(117, 134, 143, 0.11);
+    --lesson-border-left: 3px solid #2fa4e7;
+    
+    --accent-color: #2fa4e7;
+    --accent-hover: #1a8ac9;
+    
+    --highlight-day-border: 2px solid #2fa4e7;
+    --highlight-day-shadow: 0 0 15px rgba(47, 164, 231, 0.5);
+    
+    --highlight-lesson-bg: rgba(47, 164, 231, 0.15);
+    --highlight-lesson-border: 5px solid #2fa4e7;
+}
+
+[data-theme="octopus"] {
+    /* Octopus Theme (Dark) */
+    --bg-body: #212529;
+    --text-main: #f8f9fa;
+    --text-secondary: rgba(255, 255, 255, 0.9);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    
+    --card-bg: rgba(33, 37, 41, 0.6);
+    --card-border: rgba(47, 164, 231, 0.5);
+    --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    
+    --lesson-bg: rgba(255, 255, 255, 0.05);
+    
+    /* Accents remain similar but can be tweaked if needed */
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: background 0.3s ease, border 0.3s ease;
+}
+
+.card-title {
+    color: var(--text-main);
+}
+
+.lesson-card {
+    background: var(--lesson-bg);
+    border-left: var(--lesson-border-left);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: background 0.3s ease;
+}
+
+.lesson-time {
+    color: var(--text-secondary);
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.lesson-subject {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.lesson-details {
+    color: var(--text-main);
+}
+
+/* Highlighting Classes */
+.highlight-day {
+    border: var(--highlight-day-border) !important;
+    box-shadow: var(--highlight-day-shadow) !important;
+}
+
+.highlight-lesson {
+    background: var(--highlight-lesson-bg) !important;
+    border-left: var(--highlight-lesson-border) !important;
+}
+
+/* Dropdown Active State */
+.dropdown-item.active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* UMKD Styles */
+.accordion-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-main);
+}
+
+.accordion-button {
+    background: transparent;
+    color: var(--text-main);
+}
+
+.accordion-button:not(.collapsed) {
+    background: var(--highlight-lesson-bg);
+    color: var(--text-main);
+    box-shadow: none;
+}
+
+.accordion-button::after {
+    filter: invert(0.5); /* Adjust arrow color if needed */
+}
+
+[data-theme="octopus"] .accordion-button::after {
+    filter: invert(1);
+}
+
+.umkd-meta {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.umkd-link {
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.umkd-link:hover {
+    color: var(--accent-color);
+}

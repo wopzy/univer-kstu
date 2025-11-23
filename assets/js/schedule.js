@@ -10,7 +10,6 @@ let currentGroup = defaultGroup;
 let currentWeekType = "numerator"; // Default, will be calculated
 let fullScheduleData = null;
 let currentWeekNumber = 1;
-let currentTheme = "minimal";
 
 document.addEventListener("DOMContentLoaded", () => {
     initGroupDropdown();
@@ -25,12 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
         loadGroup(defaultGroup);
     }
 
-    const savedTheme = localStorage.getItem('selectedTheme');
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    } else {
-        applyTheme("minimal");
-    }
+    const savedTheme = localStorage.getItem('selectedTheme') || "minimal";
+    switchTheme(savedTheme);
 
     initNavigation();
     
@@ -45,21 +40,21 @@ function initThemeDropdown() {
             e.preventDefault();
             const theme = e.target.getAttribute("data-theme");
             if (theme) {
-                applyTheme(theme);
+                switchTheme(theme);
             }
         });
     });
 }
 
-function applyTheme(themeName) {
-    currentTheme = themeName;
+function switchTheme(themeName) {
     localStorage.setItem('selectedTheme', themeName);
+    document.documentElement.setAttribute("data-theme", themeName);
     
-    const html = document.documentElement;
+    // For Bootstrap dark mode compatibility if needed, though our CSS handles most
     if (themeName === "octopus") {
-        html.setAttribute("data-bs-theme", "dark");
+        document.documentElement.setAttribute("data-bs-theme", "dark");
     } else {
-        html.setAttribute("data-bs-theme", "light");
+        document.documentElement.setAttribute("data-bs-theme", "light");
     }
 
     // Update active state in dropdown
@@ -67,19 +62,15 @@ function applyTheme(themeName) {
     dropdownItems.forEach(item => {
         if (item.getAttribute("data-theme") === themeName) {
             item.classList.add("active");
-            item.style.backgroundColor = "#2fa4e7";
-            item.style.color = "white";
         } else {
             item.classList.remove("active");
-            item.style.backgroundColor = "";
-            item.style.color = "";
         }
     });
-
-    // Re-render schedule to apply styles
-    if (fullScheduleData) {
-        renderSchedule();
-    }
+    
+    // No need to re-render schedule as CSS variables handle the change instantly!
+    // However, we might need to re-run highlightCurrentTime if it adds specific inline styles
+    // But we are refactoring that to use classes too.
+    highlightCurrentTime();
 }
 
 function highlightCurrentTime() {
@@ -91,49 +82,34 @@ function highlightCurrentTime() {
     // Highlight current day card
     const allDayCards = document.querySelectorAll("#schedule-row .card");
     allDayCards.forEach(card => {
-        // Reset styles first (optional, if we want to be strict)
-        // But since we re-render on group change, maybe just add class
-        // Let's find the title to identify the day
+        // Reset classes
+        card.classList.remove("highlight-day");
+        
         const title = card.querySelector(".card-title");
         if (title) {
             const cardDayName = Object.keys(dayNamesRu).find(key => dayNamesRu[key] === title.textContent) || title.textContent.toLowerCase();
-            
-            // Check if this card corresponds to today
-            // Note: title.textContent is in Russian. We need to map back or check against Russian name.
             const ruName = dayNamesRu[currentDayName];
             
             if (title.textContent === ruName) {
-                card.style.border = "2px solid #2fa4e7";
-                card.style.boxShadow = "0 0 15px rgba(47, 164, 231, 0.5)";
+                card.classList.add("highlight-day");
                 
                 // Now check lessons within this day
-                const lessons = card.querySelectorAll(".card.mb-2");
+                const lessons = card.querySelectorAll(".lesson-card");
                 lessons.forEach(lessonCard => {
-                    const timeSpan = lessonCard.querySelector(".text-muted");
+                    lessonCard.classList.remove("highlight-lesson");
+                    
+                    const timeSpan = lessonCard.querySelector(".lesson-time");
                     if (timeSpan) {
                         const timeText = timeSpan.textContent.trim(); // "09:55–10:45"
                         if (isTimeCurrent(timeText)) {
-                            lessonCard.style.background = "rgba(47, 164, 231, 0.15)";
-                            lessonCard.style.borderLeft = "5px solid #2fa4e7";
-                        } else {
-                            // Reset if not current (in case time passed)
-                            if (currentTheme === "octopus") {
-                                lessonCard.style.background = "rgba(255, 255, 255, 0.05)";
-                            } else {
-                                lessonCard.style.background = "rgba(117, 134, 143, 0.11)";
-                            }
-                            lessonCard.style.borderLeft = "3px solid #2fa4e7";
+                            lessonCard.classList.add("highlight-lesson");
                         }
                     }
                 });
             } else {
-                // Reset other days
-                if (currentTheme === "octopus") {
-                    card.style.border = "1px solid rgba(47, 164, 231, 0.5)";
-                } else {
-                    card.style.border = "1px solid rgba(47, 164, 231, 0.27)";
-                }
-                card.style.boxShadow = "0 4px 30px rgba(0, 0, 0, 0.1)";
+                // Reset lessons in other days (just in case)
+                const lessons = card.querySelectorAll(".lesson-card");
+                lessons.forEach(lessonCard => lessonCard.classList.remove("highlight-lesson"));
             }
         }
     });
@@ -174,7 +150,7 @@ function initNavigation() {
         
         // Add visual indicator for active tab
         scheduleNav.style.fontWeight = "bold";
-        scheduleNav.style.color = "#2fa4e7";
+        scheduleNav.style.color = "var(--accent-color)";
         umkdNav.style.fontWeight = "normal";
         umkdNav.style.color = "";
 
@@ -189,7 +165,7 @@ function initNavigation() {
 
         // Add visual indicator for active tab
         umkdNav.style.fontWeight = "bold";
-        umkdNav.style.color = "#2fa4e7";
+        umkdNav.style.color = "var(--accent-color)";
         scheduleNav.style.fontWeight = "normal";
         scheduleNav.style.color = "";
 
@@ -200,7 +176,7 @@ function initNavigation() {
     
     // Set initial state
     scheduleNav.style.fontWeight = "bold";
-    scheduleNav.style.color = "#2fa4e7";
+    scheduleNav.style.color = "var(--accent-color)";
 }
 
 function loadUmkd(groupName) {
@@ -256,17 +232,12 @@ function renderUmkd(umkdData) {
         const item = document.createElement("div");
         item.className = "accordion-item";
         item.style.marginBottom = "8px";
-        
-        if (currentTheme === "octopus") {
-            item.style.border = "1px solid rgba(47, 164, 231, 0.5)";
-            item.style.background = "rgba(33, 37, 41, 0.6)";
-        } else {
-            item.style.border = "1px solid rgba(47, 164, 231, 0.27)";
-            item.style.background = ""; // Default bootstrap
-        }
-        
         item.style.borderRadius = "8px";
         item.style.overflow = "hidden";
+        
+        // Styles handled by CSS variables now
+        // item.style.border = ...
+        // item.style.background = ...
 
         const header = document.createElement("h2");
         header.className = "accordion-header";
@@ -304,21 +275,12 @@ function renderUmkd(umkdData) {
                 const listItem = document.createElement("li");
                 listItem.className = "list-group-item d-flex justify-content-between align-items-center";
                 listItem.style.border = "none";
+                listItem.style.background = "transparent"; // Ensure it takes parent bg
                 
                 const link = document.createElement("a");
-                // Construct path: public/UMKD/{SubjectName}/{FileName}
-                // Note: 'public' is usually the root for web server, so link should start with UMKD/
-                // But we need to be careful about URL encoding.
-                const encodedSubject = encodeURIComponent(subjectName);
-                // const encodedFile = encodeURIComponent(file.name); 
-                // Actually, browsers handle spaces in hrefs usually, but better safe.
-                // However, if the folder on disk is "Введение в базы данных, курсовой проект", 
-                // the URL should match.
-                
                 link.href = `public/UMKD/${subjectName}/${file.name}`;
                 link.setAttribute("download", ""); // Force download
-                link.style.textDecoration = "none";
-                link.style.color = "inherit";
+                link.className = "umkd-link";
                 link.style.display = "flex";
                 link.style.alignItems = "center";
                 link.style.width = "100%";
@@ -344,13 +306,7 @@ function renderUmkd(umkdData) {
                 nameSpan.textContent = file.name;
 
                 const metaSpan = document.createElement("span");
-                metaSpan.style.fontSize = "0.8rem";
-                if (currentTheme === "octopus") {
-                    metaSpan.className = "text-light";
-                    metaSpan.style.opacity = "0.6";
-                } else {
-                    metaSpan.style.color = "rgba(0, 0, 0, 0.6)";
-                }
+                metaSpan.className = "umkd-meta";
                 metaSpan.textContent = `${file.type || 'Файл'} | ${file.size || ''} | ${file.date || ''}`;
 
                 infoDiv.appendChild(nameSpan);
@@ -402,13 +358,12 @@ function updateWeekDisplay() {
         const type = item.getAttribute("data-type");
         if (type === currentWeekType) {
             item.classList.add("active");
-            item.style.backgroundColor = "#2fa4e7";
-            item.style.color = "white";
         } else {
             item.classList.remove("active");
-            item.style.backgroundColor = "";
-            item.style.color = "";
         }
+        // Remove inline styles
+        item.style.backgroundColor = "";
+        item.style.color = "";
     });
 }
 
@@ -449,22 +404,22 @@ function initGroupDropdown() {
 function loadGroup(groupName) {
     currentGroup = groupName;
     localStorage.setItem('selectedGroup', groupName);
-    document.getElementById("group-name").textContent = groupName;
-    document.getElementById("group-name").style.color = "#2fa4e7";
-    document.getElementById("group-name").style.fontWeight = "600";
+    const groupNameEl = document.getElementById("group-name");
+    groupNameEl.textContent = groupName;
+    groupNameEl.style.color = "var(--accent-color)";
+    groupNameEl.style.fontWeight = "600";
     
     // Update active state in dropdown
     const dropdownItems = document.querySelectorAll("#group-dropdown .dropdown-item");
     dropdownItems.forEach(item => {
         if (item.textContent === groupName) {
             item.classList.add("active");
-            item.style.backgroundColor = "#2fa4e7"; // Bootstrap active color is usually blue, but let's match theme
-            item.style.color = "white";
         } else {
             item.classList.remove("active");
-            item.style.backgroundColor = "";
-            item.style.color = "";
         }
+        // Remove inline styles that might have been set previously
+        item.style.backgroundColor = "";
+        item.style.color = "";
     });
 
     // Toggle UMKD visibility
@@ -553,18 +508,13 @@ function createDayCard(dayName, dayData) {
     card.className = "card";
     card.style.marginTop = "8px";
     card.style.marginBottom = "24px";
-    
-    if (currentTheme === "octopus") {
-        card.style.background = "rgba(33, 37, 41, 0.6)"; // Darker background
-        card.style.border = "1px solid rgba(47, 164, 231, 0.5)";
-    } else {
-        card.style.border = "1px solid rgba(47, 164, 231, 0.27)";
-    }
-    
     card.style.borderRadius = "16px";
-    card.style.boxShadow = "0 4px 30px rgba(0, 0, 0, 0.1)";
-    card.style.backdropFilter = "blur(5px)";
-    card.style.webkitBackdropFilter = "blur(5px)";
+    
+    // Styles handled by CSS variables now
+    // card.style.background = ...
+    // card.style.border = ...
+    // card.style.boxShadow = ...
+    // card.style.backdropFilter = ...
 
     const cardBody = document.createElement("div");
     cardBody.className = "card-body";
@@ -587,18 +537,13 @@ function createDayCard(dayName, dayData) {
             if (!lesson.subject) return; // Skip empty objects if any
 
             const lessonCard = document.createElement("div");
-            lessonCard.className = "card mb-2";
-
-            if (currentTheme === "octopus") {
-                lessonCard.style.background = "rgba(255, 255, 255, 0.05)";
-            } else {
-                lessonCard.style.background = "rgba(117, 134, 143, 0.11)";
-            }
-
-            lessonCard.style.boxShadow = "0 4px 30px rgba(0, 0, 0, 0.1)";
-            lessonCard.style.backdropFilter = "blur(5px)";
-            lessonCard.style.webkitBackdropFilter = "blur(5px)";
-            lessonCard.style.borderLeft = "3px solid #2fa4e7";
+            lessonCard.className = "card mb-2 lesson-card";
+            
+            // Styles handled by CSS variables now
+            // lessonCard.style.background = ...
+            // lessonCard.style.boxShadow = ...
+            // lessonCard.style.backdropFilter = ...
+            // lessonCard.style.borderLeft = ...
             
             const lessonBody = document.createElement("div");
             lessonBody.className = "card-body p-2";
@@ -606,32 +551,19 @@ function createDayCard(dayName, dayData) {
             const header = document.createElement("div");
             
             const time = document.createElement("span");
-            time.className = "text-muted card-subtitle mb-2";
-            time.style.marginRight = "8px";
-            time.style.fontWeight = "bold";
-            
-            // Use class for color instead of inline style to support dark mode
-            if (currentTheme === "octopus") {
-                 time.innerHTML = `<span class="text-light" style="opacity: 0.8;">${lesson.time}</span>`;
-            } else {
-                 time.innerHTML = `<span style="color: rgba(0, 0, 0, 0.75);">${lesson.time}</span>`;
-            }
+            time.className = "lesson-time card-subtitle mb-2";
+            time.textContent = lesson.time;
             
             const subject = document.createElement("span");
-            subject.style.fontWeight = "500";
-            
-            if (currentTheme === "octopus") {
-                subject.innerHTML = `<span class="text-light" style="opacity: 0.9;">${lesson.subject}</span>`;
-            } else {
-                subject.innerHTML = `<span style="color: rgba(73, 80, 87, 0.75);">${lesson.subject}</span>`;
-            }
+            subject.className = "lesson-subject";
+            subject.textContent = lesson.subject;
 
             header.appendChild(time);
             header.appendChild(subject);
             lessonBody.appendChild(header);
 
             const details = document.createElement("p");
-            details.className = "card-text";
+            details.className = "card-text lesson-details";
             details.style.margin = "0";
             details.style.marginTop = "4px";
             details.style.fontSize = "0.9rem";
