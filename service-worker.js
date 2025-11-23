@@ -1,4 +1,4 @@
-const CACHE_NAME = 'univer-kstu-v1-cache-v2';
+const CACHE_NAME = 'univer-kstu-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
