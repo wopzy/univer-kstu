@@ -8,11 +8,6 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
     <link rel="stylesheet" href="assets/css/themes.css">
-    <style>
-        .dropdown-menu {
-            border-color: #2fa4e7;
-        }
-    </style>
 </head>
 
 <body>
@@ -29,6 +24,9 @@
                             <div class="dropdown-menu" id="theme-dropdown">
                                 <a class="dropdown-item" href="#" data-theme="minimal">Minimal</a>
                                 <a class="dropdown-item" href="#" data-theme="octopus">Octopus</a>
+                                <a class="dropdown-item" href="#" data-theme="matrix">Matrix</a>
+                                <a class="dropdown-item" href="#" data-theme="dracula">Dracula</a>
+                                <a class="dropdown-item" href="#" data-theme="oled">OLED</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false"
@@ -47,22 +45,22 @@
             </div>
         </nav>
     </div>
-    <div class="container" style="padding-bottom: 80px; border-top-style: solid;border-top-color: var(--bs-primary);">
+    <div class="container" style="padding-bottom: 80px; border-top-style: solid;border-top-color: var(--accent-color);">
         <div class="row" id="schedule-row">
         </div>
         <div class="row" id="umkd-row" style="display: none;">
         </div>
     </div>
     <nav class="navbar navbar-expand-md fixed-bottom bg-body"
-        style="border-top-style: solid;border-top-color: var(--bs-primary);">
+        style="border-top-style: solid;border-top-color: var(--accent-color);">
         <div class="container-fluid">
             <div class="container-fluid">
                 <ul class="navbar-nav flex-row justify-content-around"
-                    style="width: 100%;border-left-color: var(--bs-primary);">
-                    <li class="nav-item" style="border-bottom-style: solid;border-bottom-color: var(--bs-primary);"><a
+                    style="width: 100%;border-left-color: var(--accent-color);">
+                    <li class="nav-item" style="border-bottom-style: solid;border-bottom-color: var(--accent-color);"><a
                             class="nav-link active" href="#" id="nav-schedule" style="display: inline-block;">Расписание</a></li>
                     <li class="nav-item" id="umkd-nav-item"
-                        style="border-bottom-style: solid;border-bottom-color: var(--bs-primary);"><a class="nav-link"
+                        style="border-bottom-style: solid;border-bottom-color: var(--accent-color);"><a class="nav-link"
                             href="#" id="nav-umkd" style="display: inline-block;">УМКД</a></li>
                 </ul>
             </div>

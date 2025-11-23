@@ -51,7 +51,7 @@ function switchTheme(themeName) {
     document.documentElement.setAttribute("data-theme", themeName);
     
     // For Bootstrap dark mode compatibility if needed, though our CSS handles most
-    if (themeName === "octopus") {
+    if (themeName === "octopus" || themeName === "matrix" || themeName === "dracula" || themeName === "oled") {
         document.documentElement.setAttribute("data-bs-theme", "dark");
     } else {
         document.documentElement.setAttribute("data-bs-theme", "light");

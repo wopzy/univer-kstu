@@ -20,6 +20,8 @@
     
     --highlight-lesson-bg: rgba(47, 164, 231, 0.15);
     --highlight-lesson-border: 5px solid #2fa4e7;
+
+    --font-main: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 [data-theme="octopus"] {
@@ -38,11 +40,101 @@
     /* Accents remain similar but can be tweaked if needed */
 }
 
+[data-theme="matrix"] {
+    /* Matrix - Hacker Theme */
+    --bg-body: #0d0d0d;
+    --text-main: #00ff41;
+    --text-secondary: #008f11;
+    --text-muted: #003b00;
+    
+    --card-bg: rgba(0, 20, 0, 0.9);
+    --card-border: #00ff41;
+    --card-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+    
+    --lesson-bg: rgba(0, 50, 0, 0.3);
+    --lesson-border-left: 3px solid #00ff41;
+    
+    --accent-color: #00ff41;
+    --accent-hover: #008f11;
+    
+    --highlight-day-border: 2px solid #00ff41;
+    --highlight-day-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+    
+    --highlight-lesson-bg: rgba(0, 255, 65, 0.15);
+    --highlight-lesson-border: 5px solid #00ff41;
+
+    --font-main: 'Courier New', Courier, monospace;
+}
+
+[data-theme="dracula"] {
+    /* Dracula Theme */
+    --bg-body: #282a36;
+    --text-main: #f8f8f2;
+    --text-secondary: #bd93f9;
+    --text-muted: #6272a4;
+    
+    --card-bg: rgba(68, 71, 90, 0.6);
+    --card-border: #bd93f9;
+    --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    
+    --lesson-bg: rgba(98, 114, 164, 0.1);
+    --lesson-border-left: 3px solid #ff79c6;
+    
+    --accent-color: #bd93f9;
+    --accent-hover: #ff79c6;
+    
+    --highlight-day-border: 2px solid #ff79c6;
+    --highlight-day-shadow: 0 0 15px rgba(255, 121, 198, 0.5);
+    
+    --highlight-lesson-bg: rgba(189, 147, 249, 0.15);
+    --highlight-lesson-border: 5px solid #ff79c6;
+
+    --font-main: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+[data-theme="oled"] {
+    /* OLED Theme (True Black) */
+    --bg-body: #000000;
+    --text-main: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-muted: #a0a0a0;
+    
+    --card-bg: #000000;
+    --card-border: #333333;
+    --card-shadow: none;
+    
+    --lesson-bg: #000000;
+    --lesson-border-left: 3px solid #ffffff;
+    
+    --accent-color: #a0a0a0;
+    --accent-hover: #cccccc;
+    
+    --highlight-day-border: 2px solid #ffffff;
+    --highlight-day-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    
+    --highlight-lesson-bg: #1a1a1a;
+    --highlight-lesson-border: 5px solid #ffffff;
+
+    --font-main: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
 body {
     background-color: var(--bg-body);
     color: var(--text-main);
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: var(--font-main);
+    transition: background-color 0.3s ease, color 0.3s ease, font-family 0.3s ease;
 }
+
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    background-color: var(--bg-body);
+    border: 1px solid var(--accent-color);
+}
+
+.dropdown-item {
+    font-family: var(--font-main);
+}
+
 
 .card {
     background: var(--card-bg);
