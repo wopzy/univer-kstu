@@ -10,10 +10,12 @@ let currentGroup = defaultGroup;
 let currentWeekType = "numerator"; // Default, will be calculated
 let fullScheduleData = null;
 let currentWeekNumber = 1;
+let currentTheme = "minimal";
 
 document.addEventListener("DOMContentLoaded", () => {
     initGroupDropdown();
     initWeekDropdown();
+    initThemeDropdown();
     calculateCurrentWeek();
     
     const savedGroup = localStorage.getItem('selectedGroup');
@@ -23,11 +25,62 @@ document.addEventListener("DOMContentLoaded", () => {
         loadGroup(defaultGroup);
     }
 
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else {
+        applyTheme("minimal");
+    }
+
     initNavigation();
     
     // Check for current time highlighting every minute
     setInterval(highlightCurrentTime, 60000);
 });
+
+function initThemeDropdown() {
+    const dropdownItems = document.querySelectorAll("#theme-dropdown .dropdown-item");
+    dropdownItems.forEach(item => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+            const theme = e.target.getAttribute("data-theme");
+            if (theme) {
+                applyTheme(theme);
+            }
+        });
+    });
+}
+
+function applyTheme(themeName) {
+    currentTheme = themeName;
+    localStorage.setItem('selectedTheme', themeName);
+    
+    const html = document.documentElement;
+    if (themeName === "octopus") {
+        html.setAttribute("data-bs-theme", "dark");
+    } else {
+        html.setAttribute("data-bs-theme", "light");
+    }
+
+    // Update active state in dropdown
+    const dropdownItems = document.querySelectorAll("#theme-dropdown .dropdown-item");
+    dropdownItems.forEach(item => {
+        if (item.getAttribute("data-theme") === themeName) {
+            item.classList.add("active");
+            item.style.backgroundColor = "#2fa4e7";
+            item.style.color = "white";
+        } else {
+            item.classList.remove("active");
+            item.style.backgroundColor = "";
+            item.style.color = "";
+        }
+    });
+
+    // Re-render schedule to apply styles
+    if (fullScheduleData) {
+        renderSchedule();
+    }
+}
 
 function highlightCurrentTime() {
     const now = new Date();
@@ -64,14 +117,22 @@ function highlightCurrentTime() {
                             lessonCard.style.borderLeft = "5px solid #2fa4e7";
                         } else {
                             // Reset if not current (in case time passed)
-                            lessonCard.style.background = "rgba(117, 134, 143, 0.11)";
+                            if (currentTheme === "octopus") {
+                                lessonCard.style.background = "rgba(255, 255, 255, 0.05)";
+                            } else {
+                                lessonCard.style.background = "rgba(117, 134, 143, 0.11)";
+                            }
                             lessonCard.style.borderLeft = "3px solid #2fa4e7";
                         }
                     }
                 });
             } else {
                 // Reset other days
-                card.style.border = "1px solid rgba(47, 164, 231, 0.27)";
+                if (currentTheme === "octopus") {
+                    card.style.border = "1px solid rgba(47, 164, 231, 0.5)";
+                } else {
+                    card.style.border = "1px solid rgba(47, 164, 231, 0.27)";
+                }
                 card.style.boxShadow = "0 4px 30px rgba(0, 0, 0, 0.1)";
             }
         }
@@ -195,7 +256,15 @@ function renderUmkd(umkdData) {
         const item = document.createElement("div");
         item.className = "accordion-item";
         item.style.marginBottom = "8px";
-        item.style.border = "1px solid rgba(47, 164, 231, 0.27)";
+        
+        if (currentTheme === "octopus") {
+            item.style.border = "1px solid rgba(47, 164, 231, 0.5)";
+            item.style.background = "rgba(33, 37, 41, 0.6)";
+        } else {
+            item.style.border = "1px solid rgba(47, 164, 231, 0.27)";
+            item.style.background = ""; // Default bootstrap
+        }
+        
         item.style.borderRadius = "8px";
         item.style.overflow = "hidden";
 
@@ -276,7 +345,12 @@ function renderUmkd(umkdData) {
 
                 const metaSpan = document.createElement("span");
                 metaSpan.style.fontSize = "0.8rem";
-                metaSpan.style.color = "rgba(0, 0, 0, 0.6)";
+                if (currentTheme === "octopus") {
+                    metaSpan.className = "text-light";
+                    metaSpan.style.opacity = "0.6";
+                } else {
+                    metaSpan.style.color = "rgba(0, 0, 0, 0.6)";
+                }
                 metaSpan.textContent = `${file.type || 'Файл'} | ${file.size || ''} | ${file.date || ''}`;
 
                 infoDiv.appendChild(nameSpan);
@@ -479,7 +553,18 @@ function createDayCard(dayName, dayData) {
     card.className = "card";
     card.style.marginTop = "8px";
     card.style.marginBottom = "24px";
-    card.style.border = "1px solid #2fa4e7";
+    
+    if (currentTheme === "octopus") {
+        card.style.background = "rgba(33, 37, 41, 0.6)"; // Darker background
+        card.style.border = "1px solid rgba(47, 164, 231, 0.5)";
+    } else {
+        card.style.border = "1px solid rgba(47, 164, 231, 0.27)";
+    }
+    
+    card.style.borderRadius = "16px";
+    card.style.boxShadow = "0 4px 30px rgba(0, 0, 0, 0.1)";
+    card.style.backdropFilter = "blur(5px)";
+    card.style.webkitBackdropFilter = "blur(5px)";
 
     const cardBody = document.createElement("div");
     cardBody.className = "card-body";
@@ -504,7 +589,12 @@ function createDayCard(dayName, dayData) {
             const lessonCard = document.createElement("div");
             lessonCard.className = "card mb-2";
 
-            lessonCard.style.background = "rgba(117, 134, 143, 0.11)";
+            if (currentTheme === "octopus") {
+                lessonCard.style.background = "rgba(255, 255, 255, 0.05)";
+            } else {
+                lessonCard.style.background = "rgba(117, 134, 143, 0.11)";
+            }
+
             lessonCard.style.boxShadow = "0 4px 30px rgba(0, 0, 0, 0.1)";
             lessonCard.style.backdropFilter = "blur(5px)";
             lessonCard.style.webkitBackdropFilter = "blur(5px)";
@@ -519,12 +609,22 @@ function createDayCard(dayName, dayData) {
             time.className = "text-muted card-subtitle mb-2";
             time.style.marginRight = "8px";
             time.style.fontWeight = "bold";
-            time.textContent = lesson.time;
-            time.innerHTML = `<span style="color: rgba(0, 0, 0, 0.75);">${lesson.time}</span>`;
+            
+            // Use class for color instead of inline style to support dark mode
+            if (currentTheme === "octopus") {
+                 time.innerHTML = `<span class="text-light" style="opacity: 0.8;">${lesson.time}</span>`;
+            } else {
+                 time.innerHTML = `<span style="color: rgba(0, 0, 0, 0.75);">${lesson.time}</span>`;
+            }
             
             const subject = document.createElement("span");
             subject.style.fontWeight = "500";
-            subject.innerHTML = `<span style="color: rgba(73, 80, 87, 0.75);">${lesson.subject}</span>`;
+            
+            if (currentTheme === "octopus") {
+                subject.innerHTML = `<span class="text-light" style="opacity: 0.9;">${lesson.subject}</span>`;
+            } else {
+                subject.innerHTML = `<span style="color: rgba(73, 80, 87, 0.75);">${lesson.subject}</span>`;
+            }
 
             header.appendChild(time);
             header.appendChild(subject);
