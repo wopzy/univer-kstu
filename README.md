@@ -49,5 +49,4 @@
 > *Примечание: Скриншоты создаются с помощью Polypane.*
 
 ---
-
-🚀
+🚀 Educational materials provided for student convenience only. All rights belong to their respective owners.
