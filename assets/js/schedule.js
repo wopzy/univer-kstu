@@ -348,7 +348,7 @@ function calculateCurrentWeek() {
 
 function updateWeekDisplay() {
     const weekInfoElement = document.getElementById("week-info");
-    const weekTypeText = currentWeekType === "numerator" ? "Числитель" : "Знаменатель";
+    const weekTypeText = currentWeekType === "numerator" ? "Текущая: Числитель" : "Текущая: Знаменатель";
     
     weekInfoElement.textContent = `${weekTypeText} / ${currentWeekNumber} неделя`;
 
